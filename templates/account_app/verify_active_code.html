@@ -1,0 +1,83 @@
+{% extends 'base_template/mainTemplate.html' %}
+{% load static %}
+
+{% block title %}
+    تایید کد
+{% endblock title %}
+
+{% block content %}
+
+
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="/">خانه</a></li>
+                            <li> تایید کد</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="customer_login mt-60">
+        <div class="container">
+            <div class="row">
+                <!--register area start-->
+                <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+                    <div class="account_form register">
+                        <h2> تایید کد</h2>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <p>
+                                <label>کد تایید <span>*</span></label>
+                                {{ form.active_code }}
+                                {{ form.errors.active_code }}
+                            </p>
+                            <div class="row">
+                                <div class="login_submit">
+                                    <button type="submit">تایید</button>
+                                </div>
+                                <div >
+                                    <a id="active_code_sender"  class=" ui-state-disabled active_code_sender">ارسال مجدد کد <span id="timer"></span></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--register area end-->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function startTimer(duration, display) {
+            var timer = duration, minutes, seconds;
+            const interval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.textContent = minutes + ":" + seconds;
+                if (--timer < 0) {
+                    clearInterval(interval);
+                    $('#timer').remove();
+                    $('#active_code_sender').removeClass('ui-state-disabled');
+                    $('#active_code_sender').attr("href","{% url 'Account:SendAgainOTP' %}?forgot-pass={{ forgot_pass }}");
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            var fiveMinutes = 10, display = document.querySelector('#timer');
+            startTimer(fiveMinutes, display);
+        };
+    </script>
+{% endblock %}

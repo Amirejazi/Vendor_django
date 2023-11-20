@@ -1,0 +1,63 @@
+{% extends 'base_template/mainTemplate.html' %}
+{% load static %}
+
+{% block title %}
+    ورود
+{% endblock title %}
+
+{% block scripts %}
+    {% include 'partials/_jquery_validators.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="/">خانه</a></li>
+                            <li>ورود</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="customer_login mt-60">
+        <div class="container">
+            <div class="row">
+                <!--login area start-->
+                <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+                    <div class="account_form register">
+                        <h2>ورود</h2>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <p>
+                                <label>تلفن همراه <span>*</span></label>
+                                {{ form.mobile_number }}
+                                {{ form.errors.mobile_number }}
+                            </p>
+                            <p>
+                                <label>رمز عبور <span>*</span></label>
+                                {{ form.password }}
+                                {{ form.errors.password }}
+                            </p>
+                            <p>
+                                {{ form.captcha }}
+                            </p>
+                            <p>
+                                <a href="{% url 'Account:ForgotPassword' %}">کلمه عبور خود را فراموش کردم</a>
+                            </p>
+                            <div class="login_submit">
+                                <button type="submit">ورود</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--login area end-->
+            </div>
+        </div>
+    </div>
+{% endblock %}

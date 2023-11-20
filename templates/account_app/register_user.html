@@ -1,0 +1,106 @@
+{% extends 'base_template/mainTemplate.html' %}
+{% load static %}
+
+{% block title %}
+    ثبت نام
+{% endblock title %}
+
+{% block content %}
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="/">خانه</a></li>
+                            <li>ثبت نام</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="customer_login mt-60">
+        <div class="container">
+            <div class="row">
+                <!--register area start-->
+                <div class="col-lg-6 col-md-6 offset-lg-3 offset-md-3">
+                    <div class="account_form register">
+                        <h2>ثبت نام</h2>
+                        <form action="{% url 'Account:Register' %}" method="post">
+                            {% csrf_token %}
+                            {#                        <partial name="_CaptchaInput" />#}
+                            <p>
+                                <label>نام <span>*</span></label>
+                                {{ form.first_name }}
+                                <span data-valmsg-for="first_name" data-valmsg-replace="true" class="text-danger"></span>
+                                {{ form.errors.first_name }}
+                            </p>
+                            <p>
+                                <label>نام خانوادگی <span>*</span></label>
+                                {{ form.last_name }}
+                                <span data-valmsg-for="last_name" data-valmsg-replace="true" class="text-danger"></span>
+                                {{ form.errors.last_name }}
+                            </p>
+                            <p>
+                                <label>تلفن همراه <span>*</span></label>
+                                {{ form.mobile_number }}
+                                <span data-valmsg-for="mobile_number" data-valmsg-replace="true" class="text-danger"></span>
+                                {{ form.errors.mobile_number }}
+                            </p>
+                            <p>
+                                <label>رمز عبور <span>*</span></label>
+                                {{ form.password }}
+                                {{ form.errors.password }}
+                            </p>
+                            <div class="col-lg-8 col-md-8" id="progress-bar-hierarchy-container">
+
+                            </div>
+                            <br>
+                            <p>
+                                <label>تکراررمز عبور<span>*</span></label>
+                                {{ form.rePassword }}
+                                {{ form.errors.rePassword }}
+                            </p>
+                            <p>
+                                {{ form.captcha }}
+                            </p>
+                            <div class="login_submit">
+                                <button type="submit">ثبت نام</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--register area end-->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {% include 'partials/_jquery_validators.html' %}
+    <script type="text/javascript" src="{% static 'js/password_strength/docs/js/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/password_strength/docs/js/bootstrap-3.2.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/password_strength/password-score/password-score.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/password_strength/password-score/password-score-options.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/password_strength/dist/js/bootstrap-strength-meter.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#id_password').strengthMeter('progressBar', {
+                container: $('#progress-bar-hierarchy-container'),
+                hierarchy: {
+                    '0': 'progress-bar bg-danger',
+                    '15': 'progress-bar bg-danger',
+                    '25': 'progress-bar bg-warning',
+                    '60': 'progress-bar bg-success'
+                },
+                passwordScore: {
+                    options: [],
+                    append: true
+                }
+            });
+        });
+    </script>
+{% endblock %}
